@@ -21,6 +21,7 @@ def get_notes():
     c.execute("SELECT id, content FROM notes")
     notes = [{"id": row[0], "content": row[1]} for row in c.fetchall()]
     conn.close()
+    
     return jsonify(notes)
 
 @app.route("/api/notes", methods=["POST"])
