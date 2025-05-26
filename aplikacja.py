@@ -37,4 +37,4 @@ def add_note():
 if __name__ == "__main__":
     init_db()
     app.run(host="0.0.0.0", port=5000)
-ZSI-12: poprawka notatki
+#ZSI-12: poprawka notatki
