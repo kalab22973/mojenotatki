@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Moje Notatki</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #333;
+            padding: 2em;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f2937;
+        }
+
+        form {
+            display: flex;
+            margin-bottom: 1.5em;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.6em;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        button {
+            padding: 0.6em 1em;
+            font-size: 1em;
+            border: none;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ffffff;
+            margin-bottom: 0.5em;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        #info {
+            font-style: italic;
+            text-align: center;
+            margin-top: 2em;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <h1>📝 Moje Notatki</h1>
+
+    <form id="noteForm">
+        <input type="text" id="noteContent" placeholder="Wpisz nową notatkę..." required />
+        <button type="submit">Dodaj</button>
+    </form>
+
+    <ul id="notesList"></ul>
+
+    <p id="info">Notatki są zapisywane lokalnie w kontenerze Dockera.</p>
+    <p id="info">Bartosz Furgała i Kamil Laby</p>
+    <script>
+        const apiUrl = "http://localhost:5000/api/notes";
+
+        function loadNotes() {
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(notes => {
+                    const list = document.getElementById("notesList");
+                    list.innerHTML = "";
+                    if (notes.length === 0) {
+                        list.innerHTML = "<li><em>Brak notatek</em></li>";
+                    } else {
+                        notes.forEach(note => {
+                            const li = document.createElement("li");
+                            li.innerText = note.content;
+                            list.appendChild(li);
+                        });
+                    }
+                });
+        }
+
+        document.getElementById("noteForm").addEventListener("submit", e => {
+            e.preventDefault();
+            const content = document.getElementById("noteContent").value;
+            fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content })
+            }).then(() => {
+                document.getElementById("noteContent").value = "";
+                loadNotes();
+            });
+        });
+
+        loadNotes();
+    </script>
+</body>
+</html>
