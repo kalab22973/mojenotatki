@@ -18,4 +18,4 @@ services:
 
 volumes:
   notes-data:
-ZSI-12: poprawka notatki
+#ZSI-12: poprawka notatki
