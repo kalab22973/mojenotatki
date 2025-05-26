@@ -21,6 +21,7 @@ def get_notes():
     c.execute("SELECT id, content FROM notes")
     notes = [{"id": row[0], "content": row[1]} for row in c.fetchall()]
     conn.close()
+    
     return jsonify(notes)
 
 @app.route("/api/notes", methods=["POST"])
@@ -36,3 +37,4 @@ def add_note():
 if __name__ == "__main__":
     init_db()
     app.run(host="0.0.0.0", port=5000)
+#ZSI-12: poprawka notatki
