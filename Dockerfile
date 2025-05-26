@@ -8,4 +8,4 @@ COPY . .
 
 EXPOSE 5000
 CMD ["python", "aplikacja.py"]
-ZSI-12: poprawka notatki
+#ZSI-12: poprawka notatki
